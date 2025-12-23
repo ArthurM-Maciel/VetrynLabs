@@ -2,50 +2,50 @@ import { motion } from "framer-motion";
 import {
   IconDeviceDesktop,
   IconDeviceMobile,
-  IconCloud,
-  IconDatabase,
-  IconApi,
+  IconRobot,
   IconBrandFigma,
+  IconFileAnalytics,
+  IconShieldCheck,
 } from "@tabler/icons-react";
 import FloatingPhone from "./FloatingPhone";
 
 const services = [
   {
     icon: IconDeviceDesktop,
-    title: "Web Development",
+    title: "Sistemas Web",
     description:
-      "Aplicações web modernas e responsivas com React, Vue e Next.js.",
-    tags: ["React", "Vue", "Next.js"],
+      "Desenvolvimento de sistemas web completos, modernos e responsivos para sua empresa.",
+    tags: ["React", "Next.js", "Sistemas"],
   },
   {
     icon: IconDeviceMobile,
-    title: "Mobile Apps",
-    description: "Aplicativos nativos e cross-platform para iOS e Android.",
-    tags: ["React Native", "Flutter", "Swift"],
+    title: "Aplicativos Mobile",
+    description: "Desenvolvimento de apps mobile nativos e cross-platform para iOS e Android.",
+    tags: ["React Native", "Mobile", "Apps"],
   },
   {
-    icon: IconCloud,
-    title: "Cloud Solutions",
-    description: "Infraestrutura escalável na nuvem com AWS, Azure e GCP.",
-    tags: ["AWS", "Azure", "Docker"],
-  },
-  {
-    icon: IconDatabase,
-    title: "Backend Development",
-    description: "APIs robustas e sistemas de backend performáticos e seguros.",
-    tags: ["Node.js", "Python", "PostgreSQL"],
-  },
-  {
-    icon: IconApi,
-    title: "Phising Test",
-    description: "Testes de engenharia social.",
-    tags: ["Email", "WebSite"],
+    icon: IconRobot,
+    title: "Automações de Trabalho",
+    description: "Automatização de processos e tarefas repetitivas para aumentar a produtividade.",
+    tags: ["Automação", "RPA", "Workflow"],
   },
   {
     icon: IconBrandFigma,
     title: "UI/UX Design",
-    description: "Design de interfaces intuitivas e experiências memoráveis.",
-    tags: ["Figma", "Design System", "Prototyping"],
+    description: "Design de interfaces intuitivas, modernas e experiências de usuário memoráveis.",
+    tags: ["Figma", "Design", "Prototipação"],
+  },
+  {
+    icon: IconFileAnalytics,
+    title: "Estruturação e Arquitetura de Escopos",
+    description: "Planejamento, estruturação e arquitetura de projetos digitais completos.",
+    tags: ["Arquitetura", "Planejamento", "Escopo"],
+  },
+  {
+    icon: IconShieldCheck,
+    title: "Phishing Test / Engenharia Social",
+    description: "Testes de segurança e engenharia social para identificar vulnerabilidades e fortalecer a proteção da sua empresa.",
+    tags: ["Segurança", "Pentest", "Engenharia Social"],
   },
 ];
 
@@ -88,8 +88,8 @@ export default function Services() {
             </div>
           </motion.div>
 
-          {/* Cards em grid 2x2x2 */}
-          <div className="grid grid-cols-2 gap-6">
+          {/* Cards em grid responsivo */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={index}

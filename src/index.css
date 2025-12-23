@@ -227,6 +227,21 @@ button:focus-visible {
   }
 }
 
+@keyframes float3d {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: translateY(-30px) translateX(20px) rotateY(90deg) rotateX(10deg);
+  }
+  50% {
+    transform: translateY(-60px) translateX(0) rotateY(180deg) rotateX(0deg);
+  }
+  75% {
+    transform: translateY(-30px) translateX(-20px) rotateY(270deg) rotateX(-10deg);
+  }
+}
+
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;

@@ -1,79 +1,90 @@
 import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 
-// Dados de exemplo - você pode substituir por dados reais
 const projects = [
   {
     id: 1,
-    title: "E-commerce Platform",
+    title: "Landing Pages Eficientes",
     description:
-      "Plataforma completa de e-commerce com sistema de pagamento integrado, gestão de estoque e dashboard administrativo.",
-    tags: ["E-commerce", "Full Stack"],
-    tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    image: null, // Você pode adicionar URLs de imagens aqui
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+      "Landing pages personalizadas e otimizadas para conversão, desenvolvidas especificamente para o tipo de necessidade do seu negócio.",
+    detailedDescription:
+      "Criamos landing pages altamente eficientes e personalizadas que se adaptam perfeitamente ao seu tipo de negócio. Cada página é desenvolvida com foco em conversão, performance e experiência do usuário, garantindo que seus visitantes se transformem em clientes. Utilizamos as melhores práticas de UX/UI, SEO e otimização para garantir resultados reais.",
+    tags: ["Web", "Landing Page"],
+    tech: ["React", "Next.js", "Tailwind CSS", "SEO"],
+    image: null,
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
   {
     id: 2,
-    title: "SaaS Dashboard",
+    title: "Phishing Test & Treinamento",
     description:
-      "Dashboard moderno e intuitivo para gestão de dados com visualizações em tempo real e relatórios personalizados.",
-    tags: ["SaaS", "Dashboard"],
-    tech: ["Next.js", "TypeScript", "Chart.js", "Tailwind"],
+      "Sistema completo de testes de phishing com possibilidade de treinamento de segurança para fortalecer a proteção da sua empresa.",
+    detailedDescription:
+      "Oferecemos uma solução completa de testes de phishing e treinamento de segurança. Nosso sistema permite simular ataques de engenharia social de forma controlada, identificando vulnerabilidades na sua equipe. Além disso, fornecemos treinamentos personalizados para educar seus colaboradores sobre as melhores práticas de segurança cibernética, transformando-os na primeira linha de defesa da sua empresa.",
+    tags: ["Segurança", "Pentest"],
+    tech: ["Engenharia Social", "Treinamento", "Análise"],
     image: null,
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
   {
     id: 3,
-    title: "Mobile Banking App",
+    title: "Automação On/Off Boarding",
     description:
-      "Aplicativo mobile para operações bancárias com autenticação biométrica e transferências instantâneas.",
-    tags: ["Mobile", "Fintech"],
-    tech: ["React Native", "Firebase", "Biometrics"],
+      "Sistema automatizado para contratação e desligamento de colaboradores, integrando todos os sistemas com apenas um clique.",
+    detailedDescription:
+      "Revolucione a gestão de pessoas com nossa solução de automação de onboarding e offboarding. Ao contratar um novo colaborador, você pode adicioná-lo automaticamente em todos os sistemas necessários (email, sistemas internos, ferramentas de trabalho) e configurar todas as permissões e acessos pré-definidos. No desligamento, remova a pessoa de todos os sistemas com apenas um clique, garantindo segurança e eficiência. Economize tempo e reduza erros manuais.",
+    tags: ["Automação", "RH"],
+    tech: ["RPA", "Integração", "Workflow"],
     image: null,
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
   {
     id: 4,
-    title: "Learning Management System",
+    title: "App de Finanças + WhatsApp",
     description:
-      "Sistema completo de gestão de aprendizado com cursos online, avaliações e certificados.",
-    tags: ["Education", "LMS"],
-    tech: ["Vue.js", "Laravel", "MySQL", "AWS"],
+      "Aplicativo mobile para controle de finanças pessoais com integração ao WhatsApp para maior praticidade e agilidade.",
+    detailedDescription:
+      "Aplicativo mobile completo para controle de finanças pessoais que se integra diretamente com o WhatsApp. Receba notificações de gastos, relatórios financeiros e alertas importantes diretamente no WhatsApp. Gerencie suas receitas, despesas, investimentos e metas financeiras de forma simples e intuitiva. A integração com WhatsApp torna o controle financeiro ainda mais prático e acessível, permitindo que você gerencie suas finanças sem sair do aplicativo que mais usa.",
+    tags: ["Mobile", "Fintech"],
+    tech: ["React Native", "WhatsApp API", "Financeiro"],
     image: null,
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
   {
     id: 5,
-    title: "Real Estate Platform",
+    title: "Dashboard Polícia Civil",
     description:
-      "Plataforma para busca e visualização de imóveis com tours virtuais e integração com mapas.",
-    tags: ["Real Estate", "Web App"],
-    tech: ["React", "Mapbox", "Node.js", "MongoDB"],
+      "Dashboard completo para a Polícia Civil, reunindo todas as informações que um chefe de estado precisa para tomada de decisões estratégicas.",
+    detailedDescription:
+      "Dashboard especializado desenvolvido para a Polícia Civil, centralizando todas as informações essenciais que um chefe de estado precisa para tomada de decisões estratégicas. Visualize estatísticas de criminalidade em tempo real, acompanhe indicadores de performance, monitore operações em andamento e tenha acesso a relatórios detalhados. Interface intuitiva e responsiva que facilita a análise de dados complexos e suporta decisões baseadas em evidências.",
+    tags: ["Dashboard", "Governo"],
+    tech: ["Data Visualization", "Analytics", "Real-time"],
     image: null,
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
   {
     id: 6,
-    title: "Healthcare Management",
+    title: "Sistema de Locação & Agendamento",
     description:
-      "Sistema de gestão hospitalar com agendamento de consultas, prontuários eletrônicos e telemedicina.",
-    tags: ["Healthcare", "Enterprise"],
-    tech: ["Angular", "Spring Boot", "PostgreSQL", "Docker"],
+      "Sistema completo para locação de veículos, quadras esportivas, venda de produtos e agendamento comercial, tudo em uma única plataforma.",
+    detailedDescription:
+      "Solução completa e integrada para gestão de locações e agendamentos comerciais. Gerencie locação de veículos, quadras esportivas, espaços comerciais e muito mais. O sistema também inclui funcionalidades de e-commerce para venda de produtos e um sistema robusto de agendamento comercial. Tudo em uma única plataforma que facilita a gestão do seu negócio, desde o cadastro de clientes até o controle de pagamentos e relatórios financeiros.",
+    tags: ["Sistema", "E-commerce"],
+    tech: ["Full Stack", "Agendamento", "Pagamentos"],
     image: null,
-    demoUrl: "#",
-    githubUrl: "#",
-    link: "#",
+    demoUrl: "#contact",
+    githubUrl: "#contact",
+    link: "#contact",
   },
 ];
 
@@ -98,7 +109,7 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

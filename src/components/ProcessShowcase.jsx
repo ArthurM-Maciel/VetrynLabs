@@ -1,4 +1,4 @@
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { useRef } from "react";
 import {
   IconSearch,
@@ -76,7 +76,13 @@ export default function ProcessShowcase() {
     offset: ["start start", "end start"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+  // Use spring for smoother animation
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const smoothProgress = useSpring(scrollYProgress, springConfig);
+  
+  const x = useTransform(smoothProgress, [0, 1], ["1%", "-95%"], {
+    clamp: false,
+  });
 
   return (
     <div className="h-full w-full bg-[#0a0e27] p-4 md:p-6 overflow-hidden font-mono">
@@ -127,8 +133,18 @@ export default function ProcessShowcase() {
             </motion.div>
 
             <section ref={targetRef} className="relative h-[200vh]">
-              <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex gap-4 px-4">
+              <div className="sticky top-0 flex h-screen items-center overflow-hidden" style={{
+                transform: "translateZ(0)",
+                willChange: "scroll-position",
+              }}>
+                <motion.div 
+                  style={{ 
+                    x,
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                  }} 
+                  className="flex gap-4 px-4"
+                >
                   {steps.map((step, index) => (
                     <motion.div
                       key={index}

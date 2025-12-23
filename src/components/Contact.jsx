@@ -11,10 +11,26 @@ import {
   IconUser,
   IconMessage,
   IconSparkles,
+  IconLoader2,
+  IconCheck,
+  IconAlertCircle,
 } from "@tabler/icons-react";
 import { useState } from "react";
 import TeamModal from "./TeamModal";
 import { SpotlightButton } from "./ui/SpotlightButton";
+
+// ============================================
+// CONFIGURAÇÃO DO FORMSPREE (SUPER SIMPLES!)
+// ============================================
+// 1. Acesse: https://formspree.io
+// 2. Crie uma conta gratuita (pode usar sua conta Google/Gmail)
+// 3. Crie um novo formulário
+// 4. Copie o "Form ID" que aparece (ex: "xvgkqyzw")
+// 5. Cole abaixo substituindo "YOUR_FORM_ID"
+const FORMPREE_FORM_ID = "YOUR_FORM_ID"; // Substitua pelo seu Form ID do Formspree
+
+// Nota: O formulário usa Formspree para envio de emails.
+// Veja CONFIGURAR_FORMSPREE.md para instruções de configuração.
 
 const socialLinks = [
   {
@@ -230,13 +246,72 @@ export default function Contact() {
     message: "",
   });
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica de envio do formulário
-    console.log("Form submitted:", formData);
-    alert("Mensagem enviada com sucesso! Entraremos em contato em breve.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Verificar se o Form ID está configurado
+      if (FORMPREE_FORM_ID === "YOUR_FORM_ID" || !FORMPREE_FORM_ID) {
+        setSubmitStatus("error");
+        setTimeout(() => {
+          setSubmitStatus(null);
+        }, 8000);
+        return;
+      }
+
+      // Enviar formulário usando Formspree (super simples!)
+      const response = await fetch(`https://formspree.io/f/${FORMPREE_FORM_ID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _replyto: formData.email, // Para você poder responder diretamente
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        
+        // Limpar status após 5 segundos
+        setTimeout(() => {
+          setSubmitStatus(null);
+        }, 5000);
+      } else {
+        // Erro específico do Formspree
+        const errorMessage = data.error || "Erro ao enviar formulário";
+        console.error("Erro do Formspree:", errorMessage);
+        setSubmitStatus("error");
+        
+        // Limpar status após 5 segundos
+        setTimeout(() => {
+          setSubmitStatus(null);
+        }, 5000);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar email:", error);
+      setSubmitStatus("error");
+      
+      // Limpar status após 5 segundos
+      setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -430,16 +505,65 @@ export default function Contact() {
                   />
                 </div>
 
+                {/* Status Messages */}
+                {submitStatus === "success" && (
+                  <div className="p-4 bg-green-50 border-2 border-green-200 rounded-xl flex items-center gap-3">
+                    <IconCheck className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-green-800 font-semibold">
+                        Mensagem enviada com sucesso! ✨
+                      </p>
+                      <p className="text-green-600 text-sm">
+                        Entraremos em contato em breve!
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
+                    <IconAlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-red-800 font-semibold mb-1">
+                        Ops! Algo deu errado 😔
+                      </p>
+                      <p className="text-red-600 text-sm mb-2">
+                        {FORMPREE_FORM_ID === "YOUR_FORM_ID" || !FORMPREE_FORM_ID
+                          ? "⚠️ Formspree não está configurado. Por favor, configure o Form ID no arquivo Contact.jsx (linha 30). Veja o arquivo CONFIGURAR_FORMSPREE.md para instruções."
+                          : "Tente novamente ou entre em contato diretamente pelo email vetrynlabs@gmail.com."}
+                      </p>
+                      {FORMPREE_FORM_ID === "YOUR_FORM_ID" || !FORMPREE_FORM_ID ? (
+                        <a
+                          href="mailto:vetrynlabs@gmail.com"
+                          className="text-red-700 text-sm font-medium hover:underline"
+                        >
+                          Ou envie um email direto →
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+
                 <SpotlightButton
                   type="submit"
-                  className="w-full bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-xl hover:shadow-2xl"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center justify-center gap-2">
-                    <IconSend className="w-5 h-5" />
-                    <span>Fale conosco</span>
-                    <span className="text-sm opacity-80">
-                      (prometemos responder rápido!)
-                    </span>
+                    {isSubmitting ? (
+                      <>
+                        <IconLoader2 className="w-5 h-5 animate-spin" />
+                        <span>Enviando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <IconSend className="w-5 h-5" />
+                        <span>Fale conosco</span>
+                        <span className="text-sm opacity-80">
+                          (prometemos responder rápido!)
+                        </span>
+                      </>
+                    )}
                   </div>
                 </SpotlightButton>
               </div>
