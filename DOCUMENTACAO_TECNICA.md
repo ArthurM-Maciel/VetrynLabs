@@ -287,3 +287,5 @@ Editar `src/index.css` (variáveis CSS) ou `tailwind.config.js`
 
 **Última atualização**: 2024
 
+
+

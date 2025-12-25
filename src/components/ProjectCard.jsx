@@ -23,9 +23,15 @@ const projectIcons = {
   "Sistema de Locação & Agendamento": IconCalendarEvent,
 };
 
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index = 0 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // Validação para evitar erros se project for undefined
+  if (!project) {
+    return null;
+  }
 
   const ProjectIcon = projectIcons[project.title] || IconCode;
 
@@ -33,7 +39,7 @@ export default function ProjectCard({ project, index }) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
@@ -41,11 +47,13 @@ export default function ProjectCard({ project, index }) {
     >
       {/* Image Container */}
       <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/10 via-primary-content/10 to-primary/20">
-        {project.image ? (
+        {project.image && !imageError ? (
           <img
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            onError={() => setImageError(true)}
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 via-primary-content/5 to-primary/10">
@@ -115,10 +123,10 @@ export default function ProjectCard({ project, index }) {
       {/* Content */}
       <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-2xl font-bold text-primary-dark mb-2 group-hover:text-primary transition-colors">
-          {project.title}
+          {project.title || "Projeto sem título"}
         </h3>
         <p className="text-gray-600 mb-4 leading-relaxed flex-grow">
-          {project.description}
+          {project.description || "Sem descrição disponível"}
         </p>
 
         {/* Tech stack */}
@@ -153,7 +161,7 @@ export default function ProjectCard({ project, index }) {
 
       {/* Overlay com descrição detalhada */}
       <AnimatePresence>
-        {showOverlay && project.detailedDescription && (
+        {showOverlay && project?.detailedDescription && (
           <>
             {/* Backdrop - mais claro */}
             <motion.div
@@ -185,10 +193,11 @@ export default function ProjectCard({ project, index }) {
               {/* Content */}
               <div className="pr-8">
                 <h3 className="text-2xl font-bold text-primary-dark mb-4">
-                  {project.title}
+                  {project?.title || "Projeto sem título"}
                 </h3>
                 <p className="text-gray-600 leading-relaxed text-base">
-                  {project.detailedDescription}
+                  {project?.detailedDescription ||
+                    "Sem descrição detalhada disponível"}
                 </p>
 
                 {/* Tech stack */}
