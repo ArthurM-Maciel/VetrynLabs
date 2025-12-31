@@ -20,17 +20,26 @@ import TeamModal from "./TeamModal";
 import { SpotlightButton } from "./ui/SpotlightButton";
 
 // ============================================
-// CONFIGURAÇÃO DO FORMSPREE (SUPER SIMPLES!)
+// ⚙️ CONFIGURAÇÃO DO FORMSPREE (SUPER SIMPLES!)
 // ============================================
+//
+// 📋 PASSO A PASSO RÁPIDO:
 // 1. Acesse: https://formspree.io
 // 2. Crie uma conta gratuita (pode usar sua conta Google/Gmail)
 // 3. Crie um novo formulário
-// 4. Copie o "Form ID" que aparece (ex: "xvgkqyzw")
+// 4. Copie o "Form ID" que aparece na URL (ex: se a URL é https://formspree.io/f/abc123xyz, copie apenas "abc123xyz")
 // 5. Cole abaixo substituindo "YOUR_FORM_ID"
-const FORMPREE_FORM_ID = "YOUR_FORM_ID"; // Substitua pelo seu Form ID do Formspree
+// 6. Configure o email nas Settings do Formspree: vetrynlabs@gmail.com
+//
+// 📖 GUIA COMPLETO: Veja o arquivo CONFIGURAR_FORMSPREE.md na raiz do projeto
+//
+// ⚠️ IMPORTANTE: Substitua "YOUR_FORM_ID" pelo seu Form ID real do Formspree!
+//    Exemplo: const FORMPREE_FORM_ID = "abc123xyz";
+//
+const FORMPREE_FORM_ID = "xqeakzrg"; // ✅ Form ID configurado!
 
 // Nota: O formulário usa Formspree para envio de emails.
-// Veja CONFIGURAR_FORMSPREE.md para instruções de configuração.
+// Veja CONFIGURAR_FORMSPREE.md para instruções detalhadas passo a passo.
 
 const socialLinks = [
   {
@@ -265,27 +274,30 @@ export default function Contact() {
       }
 
       // Enviar formulário usando Formspree (super simples!)
-      const response = await fetch(`https://formspree.io/f/${FORMPREE_FORM_ID}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          _replyto: formData.email, // Para você poder responder diretamente
-        }),
-      });
+      const response = await fetch(
+        `https://formspree.io/f/${FORMPREE_FORM_ID}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            _replyto: formData.email, // Para você poder responder diretamente
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         setSubmitStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
-        
+
         // Limpar status após 5 segundos
         setTimeout(() => {
           setSubmitStatus(null);
@@ -295,7 +307,7 @@ export default function Contact() {
         const errorMessage = data.error || "Erro ao enviar formulário";
         console.error("Erro do Formspree:", errorMessage);
         setSubmitStatus("error");
-        
+
         // Limpar status após 5 segundos
         setTimeout(() => {
           setSubmitStatus(null);
@@ -304,7 +316,7 @@ export default function Contact() {
     } catch (error) {
       console.error("Erro ao enviar email:", error);
       setSubmitStatus("error");
-      
+
       // Limpar status após 5 segundos
       setTimeout(() => {
         setSubmitStatus(null);
@@ -527,19 +539,96 @@ export default function Contact() {
                       <p className="text-red-800 font-semibold mb-1">
                         Ops! Algo deu errado 😔
                       </p>
-                      <p className="text-red-600 text-sm mb-2">
-                        {FORMPREE_FORM_ID === "YOUR_FORM_ID" || !FORMPREE_FORM_ID
-                          ? "⚠️ Formspree não está configurado. Por favor, configure o Form ID no arquivo Contact.jsx (linha 30). Veja o arquivo CONFIGURAR_FORMSPREE.md para instruções."
-                          : "Tente novamente ou entre em contato diretamente pelo email vetrynlabs@gmail.com."}
-                      </p>
-                      {FORMPREE_FORM_ID === "YOUR_FORM_ID" || !FORMPREE_FORM_ID ? (
-                        <a
-                          href="mailto:vetrynlabs@gmail.com"
-                          className="text-red-700 text-sm font-medium hover:underline"
-                        >
-                          Ou envie um email direto →
-                        </a>
-                      ) : null}
+                      <div className="text-red-600 text-sm mb-2 space-y-2">
+                        {FORMPREE_FORM_ID === "YOUR_FORM_ID" ||
+                        !FORMPREE_FORM_ID ? (
+                          <>
+                            <p className="font-medium">
+                              ⚠️ Formspree não está configurado ainda!
+                            </p>
+                            <div className="bg-red-100 p-3 rounded-lg space-y-2">
+                              <p className="font-semibold">
+                                Como configurar (5 minutos):
+                              </p>
+                              <ol className="list-decimal list-inside space-y-1 text-xs">
+                                <li>
+                                  Acesse{" "}
+                                  <a
+                                    href="https://formspree.io"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline font-medium"
+                                  >
+                                    formspree.io
+                                  </a>{" "}
+                                  e crie uma conta (pode usar Google)
+                                </li>
+                                <li>Crie um novo formulário</li>
+                                <li>Copie o Form ID (ex: "abc123xyz")</li>
+                                <li>
+                                  Abra o arquivo{" "}
+                                  <code className="bg-red-200 px-1 rounded">
+                                    src/components/Contact.jsx
+                                  </code>
+                                </li>
+                                <li>
+                                  Na linha 30, substitua{" "}
+                                  <code className="bg-red-200 px-1 rounded">
+                                    "YOUR_FORM_ID"
+                                  </code>{" "}
+                                  pelo seu Form ID
+                                </li>
+                                <li>
+                                  Configure o email nas Settings do Formspree:{" "}
+                                  <code className="bg-red-200 px-1 rounded">
+                                    vetrynlabs@gmail.com
+                                  </code>
+                                </li>
+                              </ol>
+                              <p className="text-xs mt-2">
+                                📖 <strong>Guia completo:</strong> Veja o
+                                arquivo{" "}
+                                <code className="bg-red-200 px-1 rounded">
+                                  CONFIGURAR_FORMSPREE.md
+                                </code>{" "}
+                                na raiz do projeto
+                              </p>
+                            </div>
+                            <a
+                              href="mailto:vetrynlabs@gmail.com"
+                              className="inline-block text-red-700 text-sm font-medium hover:underline mt-2"
+                            >
+                              Ou envie um email direto enquanto isso →
+                            </a>
+                          </>
+                        ) : (
+                          <>
+                            <p>
+                              Não foi possível enviar a mensagem. Isso pode
+                              acontecer se:
+                            </p>
+                            <ul className="list-disc list-inside space-y-1 text-xs ml-2">
+                              <li>O Form ID está incorreto</li>
+                              <li>
+                                O limite de envios foi excedido (50/mês no plano
+                                gratuito)
+                              </li>
+                              <li>Problema temporário de conexão</li>
+                            </ul>
+                            <p className="mt-2">
+                              Tente novamente ou entre em contato diretamente
+                              pelo email{" "}
+                              <a
+                                href="mailto:vetrynlabs@gmail.com"
+                                className="underline font-medium"
+                              >
+                                vetrynlabs@gmail.com
+                              </a>
+                              .
+                            </p>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
